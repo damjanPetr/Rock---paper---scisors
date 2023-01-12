@@ -6,30 +6,23 @@ function getComputerChoice() {
   return result;
 }
 
-const computerSelection = getComputerChoice();
-const playerSelection = getPlayerChoice();
-
 function getPlayerChoice() {
-  // let validatedInput = false;
-  // while (validatedInput === false) {
-  const input = prompt("Enter your choice: ");
+  let validatedInput = false;
+  while (validatedInput === false) {
+    const input = prompt("Enter your choice: ");
+    if (input === null) {
+      continue;
+    }
+    const inputLower = input.toLowerCase();
+    if (options.includes(inputLower)) {
+      validatedInput = true;
+      return inputLower;
+    }
+  }
 
-  // if (input == null) {
-  //   continue;
-  // }
-
-  const inputLower = input.toLowerCase();
-  return inputLower;
-  // if (options.includes(inputLower)) {
-  //   validatedInput = true;
-  //   return inputLower;
-  // }
-  // }
+  // return ;
 }
-
 function checkWinner(playerSelection, computerSelection) {
-  // let computerScore = 0;
-  // let playerScore = 0;
   if (playerSelection == computerSelection) {
     return "Tie";
   } else if (
@@ -37,15 +30,13 @@ function checkWinner(playerSelection, computerSelection) {
     (playerSelection == "scissors" && computerSelection == "paper") ||
     (playerSelection == "paper" && playerSelection == "rock")
   ) {
-    // playerScore++;
     return "Player";
   } else {
-    // computerScore++;
     return "Computer";
   }
 }
 
-function playRound() {
+function playRound(playerSelection, computerSelection) {
   const result = checkWinner(playerSelection, computerSelection);
   if (result === "Tie") {
     return "It's a Tie";
@@ -57,11 +48,26 @@ function playRound() {
 }
 
 function game() {
-  for (let i = 0; i <= 5; i++) {
-    const player = getPlayerChoice();
-    const computer = getComputerChoice();
-    console.log(playRound(player, computer));
-    return;
+  let playerScore = 0;
+  let computerScore = 0;
+
+  for (let i = 0; i < 5; i++) {
+    const computerSelection = getComputerChoice();
+    const playerSelection = getPlayerChoice();
+
+    console.log(playRound(playerSelection, computerSelection));
+
+    if (checkWinner(playerSelection, computerSelection) == "Player") {
+      playerScore++;
+    } else if (checkWinner(playerSelection, computerSelection) == "Computer") {
+      computerScore++;
+    }
+  }
+  console.log("GAMEOVER");
+  if (playerScore > computerScore) {
+    return "Player WINS";
+  } else {
+    return "Computer WINS";
   }
 }
 
