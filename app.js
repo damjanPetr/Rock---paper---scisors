@@ -6,22 +6,20 @@ function getComputerChoice() {
   return result;
 }
 
-function getPlayerChoice() {
-  let validatedInput = false;
-  while (validatedInput === false) {
-    const input = prompt("Enter your choice: ");
-    if (input === null) {
-      continue;
-    }
-    const inputLower = input.toLowerCase();
-    if (options.includes(inputLower)) {
-      validatedInput = true;
-      return inputLower;
-    }
-  }
+function getPlayerChoice(choice) {
+  // let temp = 0;
 
-  // return ;
+  // while (options.includes(inputLower) && temp < 0) {
+  // temp++;
+
+  const inputLower = choice.toLowerCase();
+  // if (options.includes(inputLower) {
+  return inputLower;
 }
+
+// return ;
+//this is used to check who wins and who loses and only for that
+
 function checkWinner(playerSelection, computerSelection) {
   if (playerSelection == computerSelection) {
     return "Tie";
@@ -41,34 +39,56 @@ function playRound(playerSelection, computerSelection) {
   if (result === "Tie") {
     return "It's a Tie";
   } else if (result === "Computer") {
-    return `Computer wins !!! ${computerSelection} beats ${playerSelection}`;
+    return `You lose !!! ${playerSelection} is beaten by ${computerSelection}`;
   } else if (result === "Player") {
     return `You win !!! ${playerSelection} beats ${computerSelection}`;
   }
 }
+let playerScore = 0;
+let computerScore = 0;
+let timer = 0;
 
-function game() {
-  let playerScore = 0;
-  let computerScore = 0;
-
-  for (let i = 0; i < 5; i++) {
-    const computerSelection = getComputerChoice();
-    const playerSelection = getPlayerChoice();
-
-    console.log(playRound(playerSelection, computerSelection));
-
-    if (checkWinner(playerSelection, computerSelection) == "Player") {
-      playerScore++;
-    } else if (checkWinner(playerSelection, computerSelection) == "Computer") {
-      computerScore++;
-    }
-  }
-  console.log("GAMEOVER");
-  if (playerScore > computerScore) {
-    return "Player WINS";
+function game(playerSelection, computerSelection) {
+  // for (let i = 0; i < 5; i++) {
+  // console.log(playRound(playerSelection, computerSelection));
+  //
+  if (checkWinner(playerSelection, computerSelection) == "Player") {
+    playerScore++;
+  } else if (checkWinner(playerSelection, computerSelection) == "Computer") {
+    computerScore++;
   } else {
-    return "Computer WINS";
+    return "It's a Tie";
+  }
+
+  // }
+  playRound(playRound, computerSelection);
+  pScore.textContent = playerScore;
+  cScore.textContent = computerScore;
+
+  if (timer > 5 || playerScore >= 3 || computerScore >= 3) {
+    display.innerHTML = "Game Over!!!";
+
+    if (playerScore > computerScore) {
+      return "Player WINS";
+    } else {
+      return "Computer WINS";
+    }
+    return "Game Over!!!";
   }
 }
 
-game();
+const btn = document.querySelectorAll("button");
+const display = document.querySelector(".displayResult");
+const pScore = document.querySelector(".compScore");
+const cScore = document.querySelector(".playerScore");
+
+const buttons = Array.from(btn);
+
+buttons.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const input = e.target.innerText;
+    display.textContent = game(getPlayerChoice(input), getComputerChoice());
+    // display.append = playRound(getPlayerChoice(input), getComputerChoice());
+    // console.dir(e);
+  });
+});
